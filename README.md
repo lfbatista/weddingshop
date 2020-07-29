@@ -22,6 +22,7 @@ $ git clone https://github.com/lfbatista/movies_project.git
 or [download](https://github.com/lfbatista/weddingshop/archive/master.zip) this repository.
 
 ```sh
+$ pip install -r requirements.txt
 $ python manage.py migrate --run-syncdb
 $ # to populate the db with some initial data:
 $ (echo "import import_data"; echo "import_data.import_data()") | python manage.py shell
