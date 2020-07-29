@@ -1,0 +1,79 @@
+[
+{
+    "model": "weddingapp.product",
+    "pk": 1,
+    "fields": {
+        "created": "2020-07-28T22:57:04.223Z",
+        "name": "Tea pot",
+        "brand": "Le Creuset",
+        "price": "47.00",
+        "stock": 50
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 2,
+    "fields": {
+        "created": "2020-07-28T22:57:04.231Z",
+        "name": "Cast Iron Oval Casserole - 25cm; Volcanic",
+        "brand": "Le Creuset",
+        "price": "210.00",
+        "stock": 27
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 3,
+    "fields": {
+        "created": "2020-07-28T22:57:04.238Z",
+        "name": "Gordon Ramsay Maze 12 Piece Set, White",
+        "brand": "ROYAL DOULTON",
+        "price": "85.00",
+        "stock": 2
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 4,
+    "fields": {
+        "created": "2020-07-28T22:57:04.248Z",
+        "name": "9-speed Hand Mixer; Almond Cream",
+        "brand": "KITCHENAID",
+        "price": "99.99",
+        "stock": 9
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 5,
+    "fields": {
+        "created": "2020-07-28T22:57:04.256Z",
+        "name": "Mini Stand Mixer; Empire Red",
+        "brand": "KITCHENAID",
+        "price": "399.00",
+        "stock": 2
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 6,
+    "fields": {
+        "created": "2020-07-28T22:57:04.264Z",
+        "name": "50's Style Stand Mixer, Full-Colour White",
+        "brand": "SMEG SMALL APPLIANCES",
+        "price": "449.00",
+        "stock": 0
+    }
+},
+{
+    "model": "weddingapp.product",
+    "pk": 7,
+    "fields": {
+        "created": "2020-07-28T22:57:04.273Z",
+        "name": "50's Style Stand Mixer, Black",
+        "brand": "SMEG SMALL APPLIANCES",
+        "price": "449.99",
+        "stock": 1
+    }
+}
+]

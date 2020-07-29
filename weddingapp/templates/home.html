@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block local_styles %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+ <div id="main" class="card card-body">
+  <h2 class="title">Add Gifts</h2>
+  <form id="addForm" class="form-inline mb-3">
+    <input type="text" class="form-control mr-2" id="product">
+    <input type="submit" class="btn btn-primary mr-2" value="Add">
+    <a href="/report/" class="btn btn-dark">Report</a>
+  </form>
+  <h2 class="title">Gifts</h2>
+  <ul id="products" class="list-group">
+  </ul>
+ </div>
+</div>
+{% endblock %}
+
+{% block local_javascript %}
+<script>
+  const form = document.getElementById("addForm");
+  const productList = document.getElementById("products");
+
+  // events
+  form.addEventListener("submit", addItem);
+  productList.addEventListener("click", removeProduct);
+  productList.addEventListener("click", purchaseProduct);
+
+  function getProducts() {
+    fetch("/api/products/")
+    .then(res => res.json())
+    .then(data => {
+      let prods = "";
+      data["results"]
+      .filter(prod => prod.stock > 0)
+      .forEach(function(prod) {
+        prods += `
+          <li id=${prod.id} class="list-group-item">
+            ${prod.name}
+            <button class="btn btn-outline-primary btn-sm float-right purchase">Purchase</button>
+            <button class="btn btn-danger btn-sm float-right delete mr-2">X</button>
+          </li>
+        `;
+      });
+
+      document.getElementById("products").innerHTML = prods;
+    })
+    .catch(err => console.log('error: ' + err));
+  }
+
+  function addItem(e) {
+    e.preventDefault();
+
+    // get input val
+    let newItem = document.getElementById("product").value;
+
+    if(newItem === "") {
+      alert("The field cannot be empty.");
+    } else {
+      // create new li el
+      let li = document.createElement("li");
+
+      // add class
+      li.className = "list-group-item";
+      // add text node w/ input val
+      li.appendChild(document.createTextNode(newItem));
+
+      fetch("http://localhost:8000/api/products/", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json, text/plain, */*",
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({name:newItem})
+      })
+      .then(res => res.json())
+      .then(data => {
+        li.id = data.id;
+        console.log(data)
+      })
+      .catch(err => console.log('error: ' + err));
+
+      productList.appendChild(li);
+
+      // create buttons
+      let purchaseBtn = document.createElement("button");
+      let deleteBtn = document.createElement("button");
+
+      purchaseBtn.className = "btn btn-outline-primary btn-sm float-right purchase";
+      deleteBtn.className = "btn btn-danger btn-sm float-right delete mr-2";
+
+      // append buttons text node
+      purchaseBtn.appendChild(document.createTextNode("Purchase"));
+      deleteBtn.appendChild(document.createTextNode("X"));
+
+      // append buttons to li
+      li.appendChild(purchaseBtn);
+      li.appendChild(deleteBtn);
+    }
+  }
+
+  function removeProduct(e) {
+    if(e.target.classList.contains("delete")) {
+      if(confirm("Do you want to remove this gift?")) {
+        let li = e.target.parentElement;
+
+        fetch(`http://localhost:8000/api/products/${li.id}/`, {
+          method: "DELETE",
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log('error: ' + err));
+
+        productList.removeChild(li);
+      }
+    }
+  }
+
+  function purchaseProduct(e) {
+    e.preventDefault();
+    if(e.target.classList.contains("purchase")) {
+      if(confirm("Do you want to purchase this gift?")) {
+        let li = e.target.parentElement;
+
+        fetch(`http://localhost:8000/api/products/${li.id}/`, {
+          method: "PUT",
+          headers: {
+            "Accept": "application/json, text/plain, */*",
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({name:li.innerText.split("\n")[0], stock:0})
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log('error: ' + err));
+
+        // remove product from list after purchase
+        productList.removeChild(li);
+      }
+    }
+  }
+
+  getProducts();
+</script>
+
+{% endblock %}
